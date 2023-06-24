@@ -6,7 +6,9 @@
 
 	import { formatForDiscord } from "./formatting.js"
 
-	let inputs = {}
+	let inputs = {
+		pingNews: true
+	}
 
 	let previousFocus = null
 
