@@ -34,4 +34,4 @@ jobs:
         working-directory: public
         
       - name: Publish site
-        run: "curl -Lf -X POST -u palmatum-service:${{ secrets.ACCESS_TOKEN }} -F siteName=readingList -F archive=@site.zip https://pages.tdpain.net/-/upload"
+        run: "curl -Lf -X POST -u palmatum-service:${{ secrets.ACCESS_TOKEN }} -F siteName=publicityGenerator -F archive=@site.zip https://pages.tdpain.net/-/upload"
