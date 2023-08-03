@@ -32,14 +32,9 @@ jobs:
       - name: "Build"
         run: "npm run build"
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
+      - name: Generate deploy artefact
+        run: zip -r ../site.zip *
+        working-directory: public
         
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: public
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+      - name: Publish site
+        run: "curl -Lf -X POST -u palmatum-service:${{ secrets.ACCESS_TOKEN }} -F siteName=readingList -F archive=@site.zip https://pages.tdpain.net/-/upload"
