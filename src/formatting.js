@@ -62,7 +62,7 @@ export const formatForDiscord = (inputs) => {
     lines.push(inputs.description ?? "")
     if (inputs.discordEventLink) {
         lines.push("")
-        lines.push(`*<${inputs.discordEventLink}>*`)
+        lines.push(`${inputs.discordEventLink}`)
     }
 
     return lines.join("\n")
