@@ -62,7 +62,7 @@
 		if (!confirm("Are you sure you want to delete this? You cannot undo this action.")) {
 			return
 		}
-		
+
 		if (id === documentID) {
 			switchToDocument(Date.now().toString())
 		}
@@ -111,7 +111,7 @@
 			<label class="form-check-label" for="pingNewsCheckbox">Ping news?</label>
 
 			<div class="form-floating mt-2 mb-2">
-				<textarea class="form-control" bind:value={inputs.description} placeholder="Description" id="descriptionTextarea" style="height: 950px;"></textarea>
+				<textarea class="form-control" bind:value={inputs.description} placeholder="Description" id="descriptionTextarea" style="height: 370px;"></textarea>
 				<label for="descriptionTextarea">Event description</label>
 			</div>
 
