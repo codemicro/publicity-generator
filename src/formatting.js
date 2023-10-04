@@ -1,15 +1,8 @@
 export const formatForDiscord = (inputs) => {
     let lines = []
 
-    // emoji1, event title, emoji2, news ping, tex, megaphone
-    {
-        let x = `${inputs.emojiOne ?? ""} **${inputs.title ?? ""}** ${inputs.emojiTwo ?? ""} `
-        if (inputs.pingNews) {
-            x += "@News "
-        }
-        x += ":TeX::mega:"
-        lines.push(x)
-    }
+    // emoji1, event title, emoji2, tex, megaphone
+    lines.push(`# ${inputs.emojiOne ?? ""} **${inputs.title ?? ""}** ${inputs.emojiTwo ?? ""} :TeX::mega:`)
 
     // date emoji, clock emoji, timestamp, timestamp
     {
@@ -60,9 +53,16 @@ export const formatForDiscord = (inputs) => {
     }
     
     lines.push(inputs.description ?? "")
-    if (inputs.discordEventLink) {
+    if (inputs.discordEventLink || inputs.pingNews) {
         lines.push("")
-        lines.push(`${inputs.discordEventLink}`)
+        let parts = []
+        if (inputs.discordEventLink) {
+            parts.push(inputs.discordEventLink)
+        }
+        if (inputs.pingNews) {
+            parts,push("@News")
+        }
+        lines.push(parts.join(" "))
     }
 
     return lines.join("\n")
