@@ -5,12 +5,26 @@
 	import insertText from "insert-text-at-cursor"
 
 	import { formatForDiscord } from "./formatting.js"
+	import { debounce } from "./util.js"
+	import storage from "./storage.js"
 
-	let inputs = {
-		pingNews: true
-	}
+	let inputs = {}
+	let posts = storage.listAll();
 
 	let previousFocus = null
+
+	let documentID = Date.now().toString()
+
+	const saveAndRefreshDocumentList = debounce((data) => {
+		storage.save(documentID, data)
+		posts = storage.listAll()
+	}, 1000)
+
+	$: {
+		if (Object.keys(inputs).length > 1) { // 1 because the in person/online thing is ever present
+			saveAndRefreshDocumentList(inputs)
+		}
+	}
 
 	onMount(async () => {
 		document.querySelector("emoji-picker").addEventListener("emoji-click", e => {
@@ -29,8 +43,21 @@
 	const copyToClipboard = () => {
 		navigator.clipboard.writeText(formatForDiscord(inputs))
 		copyButtonShowSuccess = true
-
 		setTimeout(() => { copyButtonShowSuccess = false }, 2000)
+	}
+
+	const switchToDocument = (id) => {
+		const x = storage.load(id)
+		documentID = id
+		inputs = x
+	}
+
+	const deleteDocument = (id) => {
+		if (id === documentID) {
+			switchToDocument(Date.now().toString())
+		}
+		storage.delete(id)
+		posts = storage.listAll()
 	}
 </script>
 
@@ -63,7 +90,7 @@
 			<div class="input-group mb-3">
 				<span class="input-group-text">Location</span>
 				<select class="form-control" bind:value={inputs.location}>
-					<option disabled selected value="nodef">(select one)</option>
+					<option disabled selected value="undefined">(select one)</option>
 					<option value="irl">In-person</option>
 					<option value="online">Online</option>
 				</select>
@@ -121,6 +148,17 @@
 		</div>
 		<div class="col col-auto">
 			<emoji-picker></emoji-picker>
+
+			<h2 class="pt-4">Other posts</h2>
+			<div class="d-grid gap-2">
+				{#each posts as post (post.id)}
+					<div class="btn-group">
+						<button on:click={switchToDocument(post.id)} class="btn" class:btn-outline-primary={post.id !== documentID} class:btn-primary={post.id === documentID} type="button">{!post.data.title || post.data.title === "" ? "(no title)" : post.data.title}</button>
+						<button on:click={deleteDocument(post.id)} class="btn" class:btn-outline-danger={post.id !== documentID} class:btn-danger={post.id === documentID} type="button">x</button>
+					</div>
+				{/each}
+				<button on:click={() => {switchToDocument(Date.now().toString())}} class="btn btn-outline-success" type="button">+</button>
+			</div>
 		</div>
 	</div>
 

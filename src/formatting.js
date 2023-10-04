@@ -17,7 +17,7 @@ export const formatForDiscord = (inputs) => {
     {
         let x = ""
 
-        if (inputs.location === "irl" || inputs.location === "nodef") {
+        if (inputs.location === "irl" || inputs.location === "undefined") {
             x += ":earth_africa: **In-person**"
         } else if (inputs.location === "online") {
             x += ":globe_with_meridians: **Online**" 
