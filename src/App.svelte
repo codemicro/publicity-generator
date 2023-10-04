@@ -8,7 +8,9 @@
 	import { debounce } from "./util.js"
 	import storage from "./storage.js"
 
-	let inputs = {}
+	let inputs = {
+		pingNews: true,
+	}
 	let posts = storage.listAll();
 
 	let previousFocus = null
@@ -21,7 +23,7 @@
 	}, 1000)
 
 	$: {
-		if (Object.keys(inputs).length > 1) { // 1 because the in person/online thing is ever present
+		if (Object.keys(inputs).length > 2) { // 2 because the in person/online and ping news things are ever present
 			saveAndRefreshDocumentList(inputs)
 		}
 	}
