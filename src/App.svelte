@@ -59,6 +59,10 @@
 	}
 
 	const deleteDocument = (id) => {
+		if (!confirm("Are you sure you want to delete this? You cannot undo this action.")) {
+			return
+		}
+		
 		if (id === documentID) {
 			switchToDocument(Date.now().toString())
 		}
