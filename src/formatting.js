@@ -60,7 +60,7 @@ export const formatForDiscord = (inputs) => {
             parts.push(inputs.discordEventLink)
         }
         if (inputs.pingNews) {
-            parts,push("@News")
+            parts.push("@News")
         }
         lines.push(parts.join(" "))
     }

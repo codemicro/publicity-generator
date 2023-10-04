@@ -25,9 +25,12 @@
 		})
 	})
 
+	let copyButtonShowSuccess = false;
 	const copyToClipboard = () => {
 		navigator.clipboard.writeText(formatForDiscord(inputs))
-		alert("Copied!")
+		copyButtonShowSuccess = true
+
+		setTimeout(() => { copyButtonShowSuccess = false }, 2000)
 	}
 </script>
 
@@ -111,7 +114,7 @@
 			<div class="card">
 				<div class="card-body">
 					<textarea class="form-control mb-2" rows="10" readonly>{formatForDiscord(inputs)}</textarea>
-					<button class="btn btn-primary" on:click={copyToClipboard}>Copy to clipboard</button>
+					<button class="btn" class:btn-primary={!copyButtonShowSuccess} class:btn-success={copyButtonShowSuccess} on:click={copyToClipboard}>Copy to clipboard</button>
 				</div>
 			</div>
 
