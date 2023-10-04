@@ -17,8 +17,12 @@
 
 	let documentID = Date.now().toString()
 
-	const saveAndRefreshDocumentList = debounce((data) => {
+	const saveDocument = (data) => {
 		storage.save(documentID, data)
+	}
+
+	const saveAndRefreshDocumentList = debounce((data) => {
+		saveDocument(data)
 		posts = storage.listAll()
 	}, 1000)
 
@@ -159,7 +163,7 @@
 						<button on:click={deleteDocument(post.id)} class="btn" class:btn-outline-danger={post.id !== documentID} class:btn-danger={post.id === documentID} type="button">x</button>
 					</div>
 				{/each}
-				<button on:click={() => {switchToDocument(Date.now().toString())}} class="btn btn-outline-success" type="button">+</button>
+				<button on:click={() => {saveDocument(inputs); switchToDocument(Date.now().toString())}} class="btn btn-outline-success" type="button">+</button>
 			</div>
 		</div>
 	</div>
